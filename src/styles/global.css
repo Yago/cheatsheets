@@ -1,0 +1,20 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", sans-serif;
+  --font-heading: "Fira Sans", sans-serif;
+  --font-mono: "Fira Code", monospace;
+}
+
+html,
+body {
+  @apply antialiased font-thin;
+}
+
+a {
+  @apply text-blue-600 hover:text-blue-900;
+}
+
+b {
+  @apply font-bold;
+}

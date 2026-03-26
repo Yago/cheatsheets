@@ -1,0 +1,10 @@
+---
+interface ContentProps {
+  class: string;
+}
+
+const { class: className = '' } = Astro.props;
+---
+<div class={`text-sm mt-4 ${className}`}>
+  <slot />
+</div>

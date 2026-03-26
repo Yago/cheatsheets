@@ -1,0 +1,222 @@
+---
+import BaseLayout from '../layouts/base.astro';
+import Code from '../components/code.astro';
+import Heading from '../components/heading.astro';
+import Separator from '../components/separator.astro';
+import Content from '../components/content.astro';
+---
+
+<BaseLayout>
+  <header class="mt-4">
+    <h1 class="flex items-center justify-center text-2xl md:text-4xl font-heading font-medium text-center bg-clip-text text-transparent bg-linear-to-r from-blue-500 to-blue-900">
+      <img src="/images/ts-logo.svg" alt="TypeScript language logotype with blue background and white T and S letters" class="w-8 md:w-12" />
+      <span class="pl-2 md:pl-4">TypeScript Cheat Sheet</span>
+    </h1>
+  </header>
+
+  <div class="grid md:grid-cols-2 gap-6 mt-8 text-center -mb-4 max-md:hidden">
+    <p>Basics 👇</p>
+    <p>Advanced 👇</p>
+  </div>
+
+  <Separator />
+
+  <div class="grid md:grid-cols-2 gap-6">
+    <div>
+      <Heading title="Type Inference" url="https://www.typescriptlang.org/docs/handbook/typescript-in-5-minutes.html#types-by-inference" />
+    
+      <Content>
+        <p>Without explicitly typing your variables, TypeScript is hable to infer types.</p>
+      </Content>
+    
+      <Code code={`const ide = 'VSCode'; // It's "VSCode"
+let browser = 'Brave'; // It's string
+if (browser === 'Brave') {/* here */} // It's "Brave"
+const theme = { name: 'Material' } // theme.name is string`} />
+    
+      <Separator />
+    
+      <Heading title="Basic Types" url="https://www.typescriptlang.org/docs/handbook/basic-types.html" />
+    
+      <Code code={`boolean, string, number, number[], [string, number],
+unknown, any, void, null, undefined, never`} />
+    
+      <Heading title="Assertions" url="https://www.typescriptlang.org/docs/handbook/basic-types.html#type-assertions" size="sm" />
+    
+      <Code code={`let layout: unknown = 'qwertz'; // layout is unknown
+let length: number = (layout as string).length; // layout is string`} />
+    
+      <Separator />
+    
+      <Heading title="Custom Types" url="https://www.typescriptlang.org/docs/handbook/interfaces.html" />
+    
+      <div class="grid grid-cols-[1fr_2rem_1fr] gap-4 items-center">
+        <Code code={`type Person = {
+  fullname: string;
+};`} />
+        <p class="text-center text-sm">or</p>
+        <Code code={`interface Person {
+  fullname: string;
+};`} />
+      </div>
+    
+      <Content>
+        <i>Here is a <a href="https://blog.logrocket.com/types-vs-interfaces-typescript/" target="_blank">good article</a> about choosing <b>type</b> or <b>interface</b></i>
+      </Content>
+    
+      <Code code={`type Person = {
+  name: string; // mandatory
+  age?: number; // optional
+  prefer: 'cat' | 'dog'; // narrower
+  readonly birthdate: string; // read only
+  getName(): string; // function returns
+}`} />
+    
+      <Separator />
+    
+      <Heading title="Functions" url="https://www.typescriptlang.org/docs/handbook/functions.html" />
+    
+      <Code code={`const add = (x: number, y: number): number => x + y;`} />
+    
+      <Content>
+        or
+      </Content>
+    
+      <Code code={`type Add = (base: number, increment: number) => number;
+const add: Add = (x, y) => x + y;`} />
+    
+      <Heading title="Rest parameters" size="sm" />
+    
+      <Code code={`const joinList = (...items: string[]) => items.join(' ');`} />
+    
+      <Heading title="Async" size="sm" />
+    
+    <Code code={`const fetchItems = (query: string): <Promise<string[]>> => {
+  return fetch('items?q=' + query);
+};`} />
+    
+      <Heading title="This" url="https://www.typescriptlang.org/docs/handbook/functions.html#this" size="sm" />
+    
+      <Code code={`function printValue(this: HTMLElement): void {
+  console.log(this.target.value);
+}`} />
+    
+      <Separator />
+    
+      <Heading title="Export/Import types" />
+    
+      <Code code={`export type Cat = { name: string };
+import type { Cat } from './my-types';`} />
+    
+      <Separator />
+    
+      <Heading title="React simple pattern" />
+    
+      <Code code={`import React, { useState } from 'react';
+
+type Props = {
+  open: boolean;
+  onOpen(open: boolean): void;
+}
+
+const Accordion = ({ open, onOpen }: Props): JSX.Element => {
+  const [active, setActive] = useState<number | null>(null);
+  return (/* ... */);
+};
+
+export default Accordion;`} />
+    </div>
+    <div>
+      <Heading title="Unions and Intersection Types" url="https://www.typescriptlang.org/docs/handbook/unions-and-intersections.html" />
+
+      <Code code={`type Artwork = { title: string }`} />
+
+      <Heading title="Intersection" size="sm" />
+
+      <Code code={`type Movie = Artwork & { duration: number; kind: 'movie' }
+type Photograph = Artwork & { iso: number; kind: 'photograph' }`} />
+
+      <Heading title="Union" size="sm" />
+
+      <Code code={`type PortfolioItem = Movie | Photograph;`} />
+
+      <Heading title="Dynamic Union" size="sm" />
+
+      <Code code={`type ArtKind = PortfolioItem['kind']; // 'movie' | 'photograph'`} />
+
+      <Heading title="Mapped Types" size="sm" />
+
+      <Code code={`type GroupedItem = {
+  [Kind in ArtKind]: PortfolioItem[];
+};
+// Is equal to
+type GroupedItem = {
+  movie: PortfolioItem[];
+  photograph: PortfolioItem[];
+};`} />
+
+      <Heading title="Keyof" size="sm" />
+
+      <Code code={`type MovieProperties = keyof Movie; // 'title' | 'duration' | 'kind'`} />
+
+      <Separator />
+
+      <Heading title="Generics" url="https://www.typescriptlang.org/docs/handbook/generics.html" />
+
+      <Content>
+        <p>Generics are like functions, it takes arguments that can be used in the type definition.</p>
+      </Content>
+
+      <Code code={`type PortfolioItem<Kind extends Kinds> = {
+  title: string;
+  kind: Kind;
+};
+const myArtWork: PortfolioItem<'movie'> = {/*...*/};
+
+const identity = <T>(arg: T): T => arg; // not very usefull ^^'
+// Takes a type T, arg is a type of T and returns a type T
+identity('Hello'); // OK
+identity(42); // OK
+identity(true); // OK`} />
+
+      <Heading title="Utility Types" url="https://www.typescriptlang.org/docs/handbook/utility-types.html#picktype-keys" />
+
+      <Code code={`// Partial type
+const changeTitle = (movie: Movie, newTitle: Partial<Movie>) => {
+  return { ...movie, title: newTitle };
+};
+
+// Readonly type
+const sw: Readonly<Movie> = { title: 'Star Wars', duration: 121 };
+sw.title = 'Star Trek'; // Error!
+
+// Record, like an object description <key, type>
+const library: Record<string, Movie> = {
+  starWars: { title: 'Star Wars', duration: 121 }
+};
+
+// Pick certains attributes
+const titleOnly: Pick<Movie, 'title'> = { title: 'Her' };
+
+// Omit certains attributes
+const noTitle: Omit<Movie, 'title'> = { duration: 90 };`} />
+
+      <Separator />
+
+      <Heading title="Conditional Types" url="https://www.typescriptlang.org/docs/handbook/advanced-types.html#conditional-types" />
+
+      <Code code={`type Library<Item extends PortfolioItem> =
+  Item extends Movie ? Movie[] :
+  Item extends Photograph ? Photograph[] : never;
+
+type SelectItem<Item, Kin> =
+  Item extends { kind: Kin } ? Item : never;
+
+// With infer keyword
+type GetReturnType = T extends (...args: never[]) =>
+  infer U ? U : never;`} />
+
+    </div>
+  </div>
+
+</BaseLayout>

@@ -1,0 +1,11 @@
+---
+import { Code } from 'astro:components';
+
+const { code, lang = 'ts', theme = 'min-light', wrap = true, class: className = '' } = Astro.props;
+---
+<Code code={code}
+  lang={lang}
+  theme={theme}
+  wrap={wrap}
+  class={`max-md:text-sm mt-4 p-4 rounded bg-slate-100! ${className}`}
+  ></Code>
