@@ -4,6 +4,10 @@
   --font-sans: "Inter", sans-serif;
   --font-heading: "Fira Sans", sans-serif;
   --font-mono: "Fira Code", monospace;
+
+  --color-primary: var(--color-primary);
+  --color-primary-dark: var(--color-primary-dark);
+  --color-primary-light: var(--color-primary-light);
 }
 
 html,
@@ -12,9 +16,27 @@ body {
 }
 
 a {
-  @apply text-blue-600 hover:text-blue-900;
+  @apply text-primary-light hover:text-primary-dark;
 }
 
 b {
   @apply font-bold;
+}
+
+body[data-theme="teal"] {
+  --color-primary: var(--color-teal-500);
+  --color-primary-dark: var(--color-teal-900);
+  --color-primary-light: var(--color-teal-700);
+}
+
+body[data-theme="blue"] {
+  --color-primary: var(--color-blue-500);
+  --color-primary-dark: var(--color-blue-900);
+  --color-primary-light: var(--color-blue-700);
+}
+
+body[data-theme="orange"] {
+  --color-primary: var(--color-orange-500);
+  --color-primary-dark: var(--color-orange-900);
+  --color-primary-light: var(--color-orange-700);
 }

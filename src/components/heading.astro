@@ -17,7 +17,7 @@ const { title, url, size = 'base' } = Astro.props;
     {title}
   </h3>)}
   {url !== undefined && (
-    <a href={url} target="_blank" class="transition-colors duration-150 text-blue-600 hover:text-blue-900">
+    <a href={url} target="_blank" class="transition-colors duration-150 text-primary hover:text-primary-dark">
       <span class="sr-only">See the official documentation page</span>
       <ExternalLink width="16" />
     </a>

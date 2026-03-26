@@ -2,6 +2,12 @@
 import Code from '../components/code.astro';
 import "../styles/global.css";
 import { Heart } from '@lucide/astro';
+
+type BaseLayoutProps = {
+  theme: 'teal' | 'blue' | 'orange';
+}
+
+const { theme = 'blue' } = Astro.props;
 ---
 <html lang="en">
   <head>
@@ -13,11 +19,11 @@ import { Heart } from '@lucide/astro';
     <title>Astro</title>
     <link href="https://fonts.googleapis.com/css2?family=Fira+Code&family=Fira+Sans:wght@600&family=Inter:wght@300..600&display=swap" rel="stylesheet">
   </head>
-  <body class="px-4">
+  <body class="px-4" data-theme={theme}>
     <slot />
 
     <footer class="text-sm flex items-center gap-1 justify-center py-4 mt-4">
-      Made with <Heart size="1em" class="text-blue-600" /> by <a href="https://yago.io" target="_blank">Yago</a> on <a href="https://github.com/yago/" target="_blank">Github</a>
+      Made with <Heart size="1em" class="text-primary-light" /> by <a href="https://yago.io" target="_blank">Yago</a> on <a href="https://github.com/yago/" target="_blank">Github</a>
     </footer>
   </body>
 </html>

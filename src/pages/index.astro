@@ -4,7 +4,7 @@ import Content from '../components/content.astro';
 import { ChevronRight } from '@lucide/astro';
 ---
 
-<BaseLayout>
+<BaseLayout theme="orange">
   <div class="mx-auto max-w-2xl">
     <header class="mt-4 flex flex-col gap-2 items-center justify-center">
       <a href="https://yago.io" target="_blank">
@@ -19,6 +19,10 @@ import { ChevronRight } from '@lucide/astro';
       <nav class="flex flex-col border-y border-slate-200 divide-y divide-slate-200 mt-12">
         <a href="/typescript" class="font-normal py-4 flex items-center justify-between">
           TypeScript
+          <ChevronRight class="text-slate-800" size="16" />
+        </a>
+        <a href="/cypress" class="font-normal py-4 flex items-center justify-between">
+          Cypress
           <ChevronRight class="text-slate-800" size="16" />
         </a>
       </nav>
