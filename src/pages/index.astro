@@ -1,0 +1,28 @@
+---
+import BaseLayout from '../layouts/base.astro';
+import Content from '../components/content.astro';
+import { ChevronRight } from '@lucide/astro';
+---
+
+<BaseLayout>
+  <div class="mx-auto max-w-2xl">
+    <header class="mt-4 flex flex-col gap-2 items-center justify-center">
+      <a href="https://yago.io" target="_blank">
+        <img src="/images/yago.svg" alt="Yago's logo" class="w-8 md:w-12" />
+      </a>
+      <h1 class="text-2xl md:text-4xl font-heading font-medium text-center">
+        <span class="pl-2 md:pl-4">Cheat Sheets</span>
+      </h1>
+    </header>
+  
+    <Content>
+      <nav class="flex flex-col border-y border-slate-200 divide-y divide-slate-200 mt-12">
+        <a href="/typescript" class="font-normal py-4 flex items-center justify-between">
+          TypeScript
+          <ChevronRight class="text-slate-800" size="16" />
+        </a>
+      </nav>
+    </Content>
+  </div>
+
+</BaseLayout>
