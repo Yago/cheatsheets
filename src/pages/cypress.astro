@@ -22,199 +22,207 @@ import Content from '../components/content.astro';
 
   <div class="grid md:grid-cols-2 gap-6">
     <div>
-      <Heading title="Type Inference" url="https://www.typescriptlang.org/docs/handbook/typescript-in-5-minutes.html#types-by-inference" />
-    
-      <Content>
-        <p>Without explicitly typing your variables, TypeScript is hable to infer types.</p>
-      </Content>
-    
-      <Code code={`const ide = 'VSCode'; // It's "VSCode"
-let browser = 'Brave'; // It's string
-if (browser === 'Brave') {/* here */} // It's "Brave"
-const theme = { name: 'Material' } // theme.name is string`} />
-    
-      <Separator />
-    
-      <Heading title="Basic Types" url="https://www.typescriptlang.org/docs/handbook/basic-types.html" />
-    
-      <Code code={`boolean, string, number, number[], [string, number],
-unknown, any, void, null, undefined, never`} />
-    
-      <Heading title="Assertions" url="https://www.typescriptlang.org/docs/handbook/basic-types.html#type-assertions" size="sm" />
-    
-      <Code code={`let layout: unknown = 'qwertz'; // layout is unknown
-let length: number = (layout as string).length; // layout is string`} />
-    
-      <Separator />
-    
-      <Heading title="Custom Types" url="https://www.typescriptlang.org/docs/handbook/interfaces.html" />
-    
-      <div class="grid grid-cols-[1fr_2rem_1fr] gap-4 items-center">
-        <Code code={`type Person = {
-  fullname: string;
-};`} />
-        <p class="text-center text-sm">or</p>
-        <Code code={`interface Person {
-  fullname: string;
-};`} />
-      </div>
-    
-      <Content>
-        <i>Here is a <a href="https://blog.logrocket.com/types-vs-interfaces-typescript/" target="_blank">good article</a> about choosing <b>type</b> or <b>interface</b></i>
-      </Content>
-    
-      <Code code={`type Person = {
-  name: string; // mandatory
-  age?: number; // optional
-  prefer: 'cat' | 'dog'; // narrower
-  readonly birthdate: string; // read only
-  getName(): string; // function returns
-}`} />
-    
-      <Separator />
-    
-      <Heading title="Functions" url="https://www.typescriptlang.org/docs/handbook/functions.html" />
-    
-      <Code code={`const add = (x: number, y: number): number => x + y;`} />
-    
-      <Content>
-        or
-      </Content>
-    
-      <Code code={`type Add = (base: number, increment: number) => number;
-const add: Add = (x, y) => x + y;`} />
-    
-      <Heading title="Rest parameters" size="sm" />
-    
-      <Code code={`const joinList = (...items: string[]) => items.join(' ');`} />
-    
-      <Heading title="Async" size="sm" />
-    
-    <Code code={`const fetchItems = (query: string): <Promise<string[]>> => {
-  return fetch('items?q=' + query);
-};`} />
-    
-      <Heading title="This" url="https://www.typescriptlang.org/docs/handbook/functions.html#this" size="sm" />
-    
-      <Code code={`function printValue(this: HTMLElement): void {
-  console.log(this.target.value);
-}`} />
-    
-      <Separator />
-    
-      <Heading title="Export/Import types" />
-    
-      <Code code={`export type Cat = { name: string };
-import type { Cat } from './my-types';`} />
-    
-      <Separator />
-    
-      <Heading title="React simple pattern" />
-    
-      <Code code={`import React, { useState } from 'react';
+      <Heading title="Setup" url="https://docs.cypress.io/app/get-started/install-cypress" />
 
-type Props = {
-  open: boolean;
-  onOpen(open: boolean): void;
+      <Code lang="bash" code={`bun add --dev cypress`} />
+
+      <Content>
+        <p>Equivalent: <code>npm install --save-dev cypress</code></p>
+      </Content>
+
+      <Code lang="json" code={`{
+  "scripts": {
+    "cypress:open": "cypress open",
+    "cypress:run": "cypress run"
+  },
+  "devDependencies": {
+    "cypress": "^15"
+  }
+}`} />
+
+      <Code lang="bash" code={`bun run cypress:open   # interactive runner
+bun run cypress:run    # headless CI`} />
+
+      <Code lang="ts" code={`import { defineConfig } from 'cypress';
+
+export default defineConfig({
+  e2e: {
+    baseUrl: 'http://localhost:3000',
+    setupNodeEvents(on, config) {},
+  },
+});`} />
+
+      <Separator />
+
+      <Heading title="Test structure" url="https://docs.cypress.io/app/core-concepts/writing-and-organizing-tests" />
+
+      <Code code={`describe('Dashboard', () => {
+  context('when logged in', () => {
+    it('shows the welcome message', () => {
+      // ...
+    });
+  });
+});`} />
+
+      <Separator />
+
+      <Heading title="Hooks" url="https://docs.cypress.io/app/core-concepts/writing-and-organizing-tests#Hooks" />
+
+      <Code code={`before(() => { /* once per describe */ });
+beforeEach(() => { cy.viewport(1536, 960); });
+afterEach(() => { /* cleanup */ });
+after(() => { /* once per describe */ });`} />
+
+      <Separator />
+
+      <Heading title="Navigation" url="https://docs.cypress.io/api/commands/visit" />
+
+      <Code code={`cy.visit('/');              // relative to baseUrl
+cy.visit('/login', { qs: { next: '/' } });
+cy.go('back');
+cy.reload();
+cy.url().should('include', '/dashboard');`} />
+
+      <Heading title="Viewport" url="https://docs.cypress.io/api/commands/viewport" size="sm" />
+
+      <Code code={`cy.viewport(1536, 960);
+cy.viewport('iphone-x');`} />
+
+      <Separator />
+
+      <Heading title="Queries" url="https://docs.cypress.io/app/core-concepts/best-practices#Selecting-Elements" />
+
+      <Content>
+        <p>Prefer stable selectors: <code>data-test</code> and <code>data-testid</code> (not <code>data-cy</code>).</p>
+      </Content>
+
+      <Code code={`cy.get('[data-testid=submit]');
+cy.contains('Sign in');
+cy.get('[data-test=form]').find('[data-testid=email]');
+cy.get('[data-testid=modal]').within(() => {
+  cy.get('[data-testid=confirm]').click();
+});`} />
+
+      <Separator />
+
+      <Heading title="Actions" url="https://docs.cypress.io/app/core-concepts/interacting-with-elements" />
+
+      <Code code={`cy.get('[data-testid=submit]').click();
+cy.get('[data-testid=email]').type('user@example.com');
+cy.get('[data-testid=email]').clear();
+cy.get('[data-testid=terms]').check();
+cy.get('[data-testid=country]').select('Switzerland');
+cy.get('[data-testid=search]').focus();`} />
+
+      <Separator />
+
+      <Heading title="Assertions" url="https://docs.cypress.io/app/references/assertions" />
+
+      <Code code={`cy.get('[data-testid=banner]').should('exist');
+cy.get('[data-testid=banner]').should('be.visible');
+cy.get('[data-testid=title]').should('have.text', 'Home');
+cy.get('[data-testid=email]').should('have.value', 'user@example.com');
+cy.get('[data-testid=list]').should('contain', 'Item 1');
+cy.get('[data-testid=submit]').should('be.disabled');
+cy.get('[data-testid=link]').should('have.attr', 'href', '/about');
+cy.get('[data-testid=card]').should('have.class', 'active');
+cy.get('[data-testid=row]').should('have.length', 3);
+
+// chain assertions
+cy.get('[data-testid=link]')
+  .should('be.visible')
+  .and('have.attr', 'href', '/home');`} />
+    </div>
+
+    <div>
+      <Heading title="Network" url="https://docs.cypress.io/api/commands/intercept" />
+
+      <Code code={`cy.intercept('GET', '/api/users', {
+  statusCode: 200,
+  body: [{ id: 1, name: 'Ada' }],
+}).as('getUsers');
+
+cy.visit('/users');
+cy.wait('@getUsers');
+cy.get('[data-testid=user-row]').should('have.length', 1);`} />
+
+      <Heading title="Stub with fixture" url="https://docs.cypress.io/api/commands/fixture" size="sm" />
+
+      <Code code={`cy.intercept('GET', '/api/users', { fixture: 'users.json' });
+cy.fixture('users.json').then((users) => {
+  expect(users).to.have.length(2);
+});`} />
+
+      <Separator />
+
+      <Heading title="API testing" url="https://docs.cypress.io/api/commands/request" />
+
+      <Code code={`cy.request('GET', '/api/health').its('status').should('eq', 200);
+
+cy.request({
+  method: 'POST',
+  url: '/api/login',
+  body: { email: 'user@example.com', password: 'secret' },
+}).then((res) => {
+  expect(res.status).to.eq(200);
+});`} />
+
+      <Separator />
+
+      <Heading title="Session" url="https://docs.cypress.io/api/commands/session" />
+
+      <Code code={`cy.session('logged-in-user', () => {
+  cy.request('POST', '/api/login', {
+    email: 'user@example.com',
+    password: 'secret',
+  });
+}, {
+  validate() {
+    cy.request('/api/me').its('status').should('eq', 200);
+  },
+});
+
+cy.visit('/dashboard');`} />
+
+      <Separator />
+
+      <Heading title="Custom commands" url="https://docs.cypress.io/api/cypress-api/custom-commands" />
+
+      <Code code={`// cypress/support/e2e.ts
+Cypress.Commands.add('login', (email: string, password: string) => {
+  cy.session([email, password], () => {
+    cy.request('POST', '/api/login', { email, password });
+  });
+});
+
+declare global {
+  namespace Cypress {
+    interface Chainable {
+      login(email: string, password: string): Chainable<void>;
+    }
+  }
 }
 
-const Accordion = ({ open, onOpen }: Props): JSX.Element => {
-  const [active, setActive] = useState<number | null>(null);
-  return (/* ... */);
-};
-
-export default Accordion;`} />
-    </div>
-    <div>
-      <Heading title="Unions and Intersection Types" url="https://www.typescriptlang.org/docs/handbook/unions-and-intersections.html" />
-
-      <Code code={`type Artwork = { title: string }`} />
-
-      <Heading title="Intersection" size="sm" />
-
-      <Code code={`type Movie = Artwork & { duration: number; kind: 'movie' }
-type Photograph = Artwork & { iso: number; kind: 'photograph' }`} />
-
-      <Heading title="Union" size="sm" />
-
-      <Code code={`type PortfolioItem = Movie | Photograph;`} />
-
-      <Heading title="Dynamic Union" size="sm" />
-
-      <Code code={`type ArtKind = PortfolioItem['kind']; // 'movie' | 'photograph'`} />
-
-      <Heading title="Mapped Types" size="sm" />
-
-      <Code code={`type GroupedItem = {
-  [Kind in ArtKind]: PortfolioItem[];
-};
-// Is equal to
-type GroupedItem = {
-  movie: PortfolioItem[];
-  photograph: PortfolioItem[];
-};`} />
-
-      <Heading title="Keyof" size="sm" />
-
-      <Code code={`type MovieProperties = keyof Movie; // 'title' | 'duration' | 'kind'`} />
+// in a spec
+cy.login('user@example.com', 'secret');
+cy.visit('/dashboard');`} />
 
       <Separator />
 
-      <Heading title="Generics" url="https://www.typescriptlang.org/docs/handbook/generics.html" />
+      <Heading title="Reliability" url="https://docs.cypress.io/app/core-concepts/best-practices" />
 
       <Content>
-        <p>Generics are like functions, it takes arguments that can be used in the type definition.</p>
+        <p>Wait on network aliases, not arbitrary delays. Use <code>data-test</code> / <code>data-testid</code> selectors. Avoid testing implementation details.</p>
       </Content>
 
-      <Code code={`type PortfolioItem<Kind extends Kinds> = {
-  title: string;
-  kind: Kind;
-};
-const myArtWork: PortfolioItem<'movie'> = {/*...*/};
+      <Code code={`// prefer
+cy.wait('@getUsers');
 
-const identity = <T>(arg: T): T => arg; // not very usefull ^^'
-// Takes a type T, arg is a type of T and returns a type T
-identity('Hello'); // OK
-identity(42); // OK
-identity(true); // OK`} />
+// avoid
+cy.wait(5000);
 
-      <Heading title="Utility Types" url="https://www.typescriptlang.org/docs/handbook/utility-types.html#picktype-keys" />
-
-      <Code code={`// Partial type
-const changeTitle = (movie: Movie, newTitle: Partial<Movie>) => {
-  return { ...movie, title: newTitle };
-};
-
-// Readonly type
-const sw: Readonly<Movie> = { title: 'Star Wars', duration: 121 };
-sw.title = 'Star Trek'; // Error!
-
-// Record, like an object description <key, type>
-const library: Record<string, Movie> = {
-  starWars: { title: 'Star Wars', duration: 121 }
-};
-
-// Pick certains attributes
-const titleOnly: Pick<Movie, 'title'> = { title: 'Her' };
-
-// Omit certains attributes
-const noTitle: Omit<Movie, 'title'> = { duration: 90 };`} />
-
-      <Separator />
-
-      <Heading title="Conditional Types" url="https://www.typescriptlang.org/docs/handbook/advanced-types.html#conditional-types" />
-
-      <Code code={`type Library<Item extends PortfolioItem> =
-  Item extends Movie ? Movie[] :
-  Item extends Photograph ? Photograph[] : never;
-
-type SelectItem<Item, Kin> =
-  Item extends { kind: Kin } ? Item : never;
-
-// With infer keyword
-type GetReturnType = T extends (...args: never[]) =>
-  infer U ? U : never;`} />
-
+cy.get('[data-testid=submit]', { timeout: 10000 }).click();
+cy.get('[data-testid=hidden-menu]').click({ force: true }); // last resort`} />
     </div>
   </div>
 
